@@ -1,8 +1,16 @@
-%% Ejercicio 3:b capacidad de la red de hopfield a medida que baja % sinapsis
+%%% Autor: Francisco Rossi
+%%% Materia: 86.54 - Redes Neuronales, Facultad de Ingeniería (U.B.A)
+%%% +-+-+-+-+ +-+ +-+ +-+-+-+-+-+-+-+-+-+ +-+
+%%% |G|U|I|A| |1| |-| |E|J|E|R|C|I|C|I|O| |3b|
+%%% +-+-+-+-+ +-+ +-+ +-+-+-+-+-+-+-+-+-+ +-+
+%%% Capacidad de la red de Hopfield (82') en funcion del % sinapsis eliminadas 
+
+%% Cleaning
 clear all;
 close all;
 clc
 
+%% Definicion de variables
 N = 100;
 perror = 0.01;
 porc_eliminado = [0:5:100];
@@ -42,5 +50,8 @@ end
 %%
 figure(1)
 plot(porc_eliminado,mean(C,2))
+title('Capacidad de la red')
+xlabel('% sinapsis eliminadas')
+ylabel('Capacidad de la red')
 grid minor
 
