@@ -65,8 +65,8 @@ for j = 1:length(T)
     %toc
 end
 
-%%
-
+%% Graficos
+load('work_space1D.mat')
 figure(1)
 s = scatter(T,mean_S,'x');
 hold on
@@ -79,6 +79,5 @@ set(gca,'xdir','reverse')
 title('<S> a diferentes temperaturas')
 grid minor
 
-%%
 
 
