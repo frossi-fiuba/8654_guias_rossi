@@ -16,25 +16,25 @@ N = 2250; % cant de neuronas
 p = 6; % cant de patrones
 
 %% entrenamiento
-path =  "imagenes\";
+path = converCharsToStringpwd + "\imagenes";
 images = [path + "paloma.bmp", path + "panda.bmp", path + "perro.bmp", path + "quijote.bmp", path + "torero.bmp", path + "v.bmp"];
 
 for i=1:length(images)
-    P(:,i) = image2vector(char(images(i)),N);
+    P(:,i) = image2vector(images(i))
 end
     
 % imagen 1: paloma
-P1 = P(:,1);
+P1 = P(:,1)
 % imagen 2: panda
-P2 = P(:,2);
+P2 = P(:,2)
 % imagen 3: perro
-P3 = P(:,3);
+P3 = P(:,3)
 %imagen 4: quijote
-P4 = P(:,4);
+P4 = P(:,4)
 %imagen 5: torero
-P5 = P(:,5);
+P5 = P(:,5)
 %imagen 6: v
-P6 = P(:,6);
+P6 = P(:,6)
 
 % generacion de la red de pesos sinápticos
 W = 0;
