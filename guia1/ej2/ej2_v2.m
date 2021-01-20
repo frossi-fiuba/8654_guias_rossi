@@ -9,6 +9,7 @@
 clear all;
 close all;
 clc
+
 %caso general
 %% Definicion de var
 N = [1:10:510]; 

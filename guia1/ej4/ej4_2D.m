@@ -1,6 +1,15 @@
+%%% Autor: Francisco Rossi
+%%% Materia: 86.54 - Redes Neuronales, Facultad de Ingeniería (U.B.A)
+%%% +-+-+-+-+ +-+ +-+ +-+-+-+-+-+-+-+-+-+ +-+
+%%% |G|U|I|A| |1| |-| |E|J|E|R|C|I|C|I|O| |4|
+%%% +-+-+-+-+ +-+ +-+ +-+-+-+-+-+-+-+-+-+ +-+
+%%% Temperatura critica en el modelo de Ising 2D
+
+%% Cleaning
+clear all;
+close all;
 clc
-clear all
-close all
+
 % Grid de 35x35 spines
 N = 35*35;
 h_ext = 0; % campo externo nulo
