@@ -1,13 +1,20 @@
-%% 
-%%%%% Francisco Rossi - 99540 %%%%%%%%
-%%%%% Redes Neuronales - Guia 2 %%%%%%
-%%%%%%%%%%%%% Ejercicio 2 %%%%%%%%%%%%
+%%% Autor: Francisco Rossi
+%%% Materia: 86.54 - Redes Neuronales, Facultad de Ingeniería (U.B.A)
+%%% +-+-+-+-+ +-+ +-+ +-+-+-+-+-+-+-+-+-+ +-+
+%%% |G|U|I|A| |2| |-| |E|J|E|R|C|I|C|I|O| |ADICIONAL - Capacidad|
+%%% +-+-+-+-+ +-+ +-+ +-+-+-+-+-+-+-+-+-+ +-+
+%%% Capacidad del perceptron simple
+
+% Cleaning
+clear all;
+close all;
+clc
 clear all;
 close all;
 clc
 
 N = 20; % largo del vector x
-pmax = 4*N;
+pmax = 4*N; % cantidad maxima de patrones
 Nap = zeros(pmax,1); % cantidad de patrones aprendidos
 iter_max = 1000;
 eta = 10;
@@ -22,21 +29,21 @@ for p=1:pmax
             z = 2*binornd(1,1/2,p,1)-1;
             w = binornd(1,1/2,N,1)-1;
 
-            %recorro 1 vez el vector
-            v_rand = randperm(p);
-
-            for i=1:p
-                h = w'*x(v_rand(i),:)';
+            %recorro 1 vez el vector de manera aleatoria
+           
+            for i=randperm(p)
+                h = w'*x(i,:)';
                 y = signo(h);
-                y_res(v_rand(i),1) = y;
-                w = w + eta * x(v_rand(i),:)'*(z(v_rand(i))-y);
+                y_res(i,1) = y;
+                w = w + eta * x(i,:)'*(z(i)-y);
             end    
 
             E = 1/2 * (z-y_res)'*(z-y_res);
 
             i = 2;
 
-            while(1)
+            % ahora hasta error nulo o llegar al maximo de iteraciones
+            while(i <= iter_max)
                 idx = randi(p);
                 h = w'*x(idx,:)';
                 y_res(idx,1) = signo(h);
@@ -45,12 +52,9 @@ for p=1:pmax
                 E = 1/2 * (z-y_res)'*(z-y_res);
 
                 i = i + 1;
-                if (i > iter_max)
-                    break;
-                end
 
                 if (E == 0)
-                    Nap(p) = Nap(p) + 1;
+                    Nap(p) = Nap(p) + 1; % aprendio 1 patron mas
                     break;
                 end
             end
