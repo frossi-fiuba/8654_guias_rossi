@@ -1,10 +1,15 @@
-% Ejercicio 5 - Guia 3
-% Rossi Francisco - 99540
+%%% Autor: Francisco Rossi
+%%% Materia: 86.54 - Redes Neuronales, Facultad de Ingeniería (U.B.A)
+%%% +-+-+-+-+ +-+ +-+ +-+-+-+-+-+-+-+-+-+ +-+
+%%% |G|U|I|A| |2| |-| |E|J|E|R|C|I|C|I|O| |5|
+%%% +-+-+-+-+ +-+ +-+ +-+-+-+-+-+-+-+-+-+ +-+
+%%% Simulated Annealing
 
-%%
+% Cleaning
 clear all;
 close all;
 clc
+
 alpha = 0.99;
 mu = 0;
 var = 0.5;
