@@ -1,18 +1,24 @@
+%%% Autor: Francisco Rossi
+%%% Materia: 86.54 - Redes Neuronales, Facultad de Ingeniería (U.B.A)
+%%% +-+-+-+-+ +-+ +-+ +-+-+-+-+-+-+-+-+-+ +-+
+%%% |G|U|I|A| |2| |-| |E|J|E|R|C|I|C|I|O| |2|
+%%% +-+-+-+-+ +-+ +-+ +-+-+-+-+-+-+-+-+-+ +-+
+%%% Implementacion de un Perceptron Multicapafuncion de 3 entradas
+
+% Cleaning
 clear all;
 close all;
 clc
 
-%% Guia 2: Ejercicio 3 perceptron 1 capa intermedia de 16 neu
-
-N = 10e3;
+N = 1e3;
 Nneu = 32;
 M = 400;
 k = 1;
-
+k2 = 1;
 size_X = 3; % cantidad de entradas
 mu = 0; % media de las Normales estandares utilizadas para inicializar
 var = 0.5; % varianza de las Normales estandares utilizadas para inicializar
-E_max = 2e-3; % error maximo aceptable
+E_max = 0.8; % error maximo aceptable
 %eta = 1e-3;
 eta = 1e-3; 
 
@@ -62,7 +68,9 @@ db_43 = zeros(1,1);
 
 db_10 = zeros(Nneu,1);
 
-while (E > E_max)
+max_epocas = 500;
+
+while (E > E_max && k2 < max_epocas)
     
     for i = randperm(length(X)) 
         % out 1 capa
@@ -71,7 +79,19 @@ while (E > E_max)
         % out final
         h4 = W_43*V1 + b_43;
         V4(i) = tanh(h4);
-        %pause()
+        
+        % CALCULO EL ERROR PARA LA ITERACION
+        h = W_10*X' + repmat(b_10, 1, N);
+        V1_mat = tanh(h);
+
+        % capa de salida
+        h = W_43*V1_mat + repmat(b_43, 1, N);
+        f_out_b = tanh(h);
+        
+        E_train = 1/2 * sum((f_d - f_out_b').^2);
+        E_train_vec(k) = E_train;
+        k = k + 1;
+        
 
         % back propagation
             
@@ -89,27 +109,55 @@ while (E > E_max)
 
         W_10 = W_10 + eta*delta1*X(i,:);
         b_10 = b_10 + eta*delta1;
-    end
-
-
-       % Testeo
-    for j = randperm(length(X_t))
         
-         % out 1 capa
-        h1 = W_10*X_t(j,:)' + b_10;
-        V1 = tanh(h1); 
-        % out final
-        h4 = W_43*V1 + b_43;
-        f_out(j,1) = tanh(h4);
-        %pause()
     end
-    
-    E= 1/2*sum((f_d_t - f_out).^2)
-    E_vec(k) = E;
-    k = k + 1;
-    
-    if k > 1500
-        break;
-    end
- 
+
+    % CALCULO EL ERROR PARA LA ITERACION
+    h = W_10*X_t' + repmat(b_10, 1, M);
+    V1_mat = tanh(h);
+
+    % capa de salida
+    h = W_43*V1_mat + repmat(b_43, 1, M);
+    f_out = tanh(h);
+    % cambiar por mean los sum y sacar los divididos a los sum
+    E_test = 1/2 * sum((f_d_t - f_out').^2);
+    E_test_vec(k2) = E_test;
+    k2 = k2 + 1
+
 end
+
+%% Graficos
+
+load('workspace_pruba1.mat')
+
+figure()
+plot(1:k2-1,E_test_vec/(M))
+xlabel("Epoca")
+ylabel("E_{test}")
+grid on
+
+%
+
+figure()
+plot(1:k-1,E_train_vec/(N))
+xlabel("Iteracion")
+ylabel("E_{train}")
+grid on
+
+
+%min cuadradados
+
+c = polyfit(f_d_t, f_out', 1);
+disp(['la ecuacion es y = ' num2str(c(1)) '*x + ' num2str(c(2))])
+x = linspace(-1,1);
+y = c(1)*x + c(2);
+%
+figure()
+scatter(f_d_t, f_out,'x')
+hold on
+plot(x,y, '-r')
+plot(x,x,'--k')
+xlabel("salida deseada")
+ylabel("salida")
+legend(["valores f_d vs f_out","fit a minimos cuadrados","x = y"], 'location', 'northwest')
+grid on
