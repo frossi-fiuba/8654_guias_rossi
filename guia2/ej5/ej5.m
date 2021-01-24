@@ -7,7 +7,7 @@ close all;
 clc
 alpha = 0.99;
 mu = 0;
-var = 1;
+var = 0.5;
 k = 1;
 T_max = 20;
 T_min = 1e-6;
@@ -32,8 +32,9 @@ b_21 = normrnd(mu,var,N,1);
 b_32 = normrnd(mu,var,N,1);
 b_43 = normrnd(mu,var,1,1);
 
-T = T_max;
+T = T_max; % temperatura maxima es la incial
 j = 2;
+% primer recorrido
 for i = randperm(length(X)) 
         % out 1 capa
         h1 = W_10*X(i,:)' + b_10;
@@ -48,10 +49,11 @@ for i = randperm(length(X))
         h4 = W_43*V3 + b_43;
         V4 = tanh(h4);
         %pause()
-    end
+end
     
     E = 1/2 *(y_d - V4)'* (y_d - V4);
     E_vec(1) = E;
+    
 while(E > E_target)
     
     W_10_ast = W_10 + normrnd(0,var,N,size_X);
@@ -84,9 +86,9 @@ while(E > E_target)
 
     delta_E  = E - E_ast
 
-    if (delta_E < 0 | binornd(1,exp(-delta_E/(k*T))))
+    if (delta_E < 0 || binornd(1,exp(-delta_E/(k*T))))
         W_10 = W_10_ast;
-        W_21 = W_21_ast;
+        W_21 = W_21_ast; 
         W_32 = W_32_ast;
         W_43 = W_43_ast;
         
@@ -105,6 +107,7 @@ while(E > E_target)
         disp("No convergio, llego a Tmin");
         break;
     end
+    
     T = T*alpha;
 end
     
