@@ -76,7 +76,7 @@ E = 0;
     
     % error promedio
     E_vec(i) = E/cant_imagenes;
-    
+
     % actualizo pesos y bias
     delta_w = epsilon/cant_imagenes*((v_data*h_data')-(v_recon*h_recon'));
     delta_b_v = epsilon*(mean(v_data,2)-mean(v_recon,2));
@@ -99,3 +99,26 @@ title("Error en funcion de la cantidad de iteraciones")
 xlabel("Iteracion")
 ylabel("E")
 grid minor
+
+%%
+load('datosTest.mat');
+data = data'/255;
+
+for i=1:size(data,2)
+    v = data(:,i);
+    v_rs = reshape(v,28,28);
+    
+    fig1 = figure(1);
+    imagesc(v_rs');
+    axis off;
+    colormap(gray(256));
+    saveas(fig1, char("pics\test_"+i+"_in.png"),'png')
+    
+    v_recon = b_v + W*logistic(b_h + W'*v);
+    v_recon_rs = reshape(v_recon,[28,28]);
+    fig2 = figure(2);
+    imagesc(v_recon_rs');
+    axis off;
+    colormap(gray(256));
+    saveas(fig2, char("pics\test_"+i+"_out.png"), 'png')
+end 
