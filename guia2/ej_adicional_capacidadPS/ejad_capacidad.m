@@ -9,9 +9,6 @@
 clear all;
 close all;
 clc
-clear all;
-close all;
-clc
 
 N = 20; % largo del vector x
 pmax = 4*N; % cantidad maxima de patrones
@@ -67,7 +64,7 @@ load('workspace01.mat')
 pvec = 1:80;
 figure()
 plot(pvec,Nap/Nrep)
-title("Capacidad del Perpeptron Simple N = 20")
+title("Capacidad del Perceptron Simple N = 20")
 xlabel("p")
 ylabel("Nap/Nrep")
 grid minor
